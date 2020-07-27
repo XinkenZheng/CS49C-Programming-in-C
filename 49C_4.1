@@ -1,0 +1,127 @@
+#include <stdio.h>
+#include <string.h>
+
+//structure of an employee contains ID, name, and title.
+struct employee{
+  int id;
+  char name[25];
+  char title[25];
+};
+
+//sort the record based on employee name in decsending 
+void sort(struct employee array[], int n)
+{
+  struct employee temp;   //variable temp for swapping
+  //bubble sort
+  for(int i =0; i < n; i++)   
+  {
+    for(int j = i+1; j < n-1; j++)
+    {
+      //if j comes after i, swap j and i.
+      if(strcmp(array[i].name,array[j].name) < 0)
+      {
+        //temp variable to store employee at index i,
+        temp = array[i];
+        array[i] = array[j]; // set employee i to j  
+        array[j] = temp;  //set j to temp.
+      }
+    }
+  }
+}
+
+int main(void) {
+  //array to hold at least five employee
+  struct employee record[6]; 
+  //looping variable
+  int i,j;
+  
+  //loop till 5 employee is enter to system
+  for(i = 0; i < 5; i++)
+  {
+    
+    //prompt for id
+    printf("Enter id number: ");
+    int num;
+    scanf("%d",&num); //scan the input
+    //set it equal to the first employee's id.
+    record[i].id = num; 
+
+    //prompt for name
+    printf("Enter name for the employee: ");
+    //name no longer than 25 characters
+    char name[25]; 
+    //scan the name
+    scanf("%s",name); 
+    //copy the name to the employee in that index
+    strcpy(record[i].name , name);
+
+
+    //prompt for title
+    printf("Enter title of the employee: ");
+    //title no longer than 25 characters
+    char tile[25]; 
+    //scan the input
+    scanf("%s",tile);
+    //copy the title to the employee in that index
+    strcpy(record[i].title , tile);
+
+  }
+
+  //prompt
+  printf("Displaying information...\n ");
+
+  //print the record before sorted.
+  printf("ID: \t Name: \t Title: \t\n");
+  for(j =0; j<5;j++)
+  {
+      printf("\t%d \t %s \t %s \t\n", record[j].id,record[j].name,record[j].title);
+  }
+
+  //sort the record in decsending order base on names.
+  sort(record,6);
+
+  //print the record after sorted
+  printf("record after sorted is...\n ");
+  printf("ID: \t Name: \t Title: \t\n");
+  for(j =0; j<5;j++)
+  {
+      printf("\t%d \t %s \t %s \t\n", record[j].id,record[j].name,record[j].title);
+  }
+    
+}
+
+
+
+/* outout
+
+Enter id number: 1
+Enter name for the employee: cherry
+Enter title of the employee: sales
+Enter id number: 2
+Enter name for the employee: michael
+Enter title of the employee: manager
+Enter id number: 3
+Enter name for the employee: ivey
+Enter title of the employee: brat
+Enter id number: 4
+Enter name for the employee: kenny
+Enter title of the employee: boss
+Enter id number: 5
+Enter name for the employee: amy
+Enter title of the employee: bartender
+Displaying information...
+ ID:     Name:   Title: 
+    1    cherry      sales 
+    2    michael     manager 
+    3    ivey    brat 
+    4    kenny   boss 
+    5    amy     bartender 
+record after sorted is...
+ ID:     Name:   Title: 
+    2    michael     manager 
+    4    kenny   boss 
+    3    ivey    brat 
+    1    cherry      sales 
+    5    amy     bartender 
+
+*/
