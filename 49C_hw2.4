@@ -1,0 +1,143 @@
+//program and track a turle robot location with commands
+#include <stdio.h>
+#include <stdbool.h>
+
+/*
+command 1: pen up
+command 2: pen down
+command 3: turn right
+command 4: turn left
+command 5, num: num with the number of steps to move forward
+command 6: print out the result
+command 9: exit the program
+*/
+
+int main() {
+    int board[50][50]; //board size is 50x50
+    
+    //initialize everything to zero
+    for (int i = 0; i < 50; i++) {
+        for (int j = 0; j < 50; j++) {
+            board[i][j] = 0;
+        }
+    }
+
+
+    int command;   //input from user
+    bool penUp = true;   //default pen is up
+    int steps = 0;       //steps to move forward
+    int currentX = 0;   //current X
+    int currentY = 0;   //current Y
+    int currentDirection = 0;   //current Direction, starting position is right
+
+    while (true) { //will run forever until command i 9
+        printf("Enter the command for the turtle: ");
+        scanf("%d", &command);
+        if (command == 1) {         
+            penUp = true;
+        }
+        else if (command == 2) {
+            penUp = false;
+        }
+        else if (command == 3) {
+            currentDirection = (currentDirection + 1) % 4;
+        }
+        else if (command == 4) {
+            currentDirection = (currentDirection + 3) % 4;
+        }
+        else if (command == 5) {
+            printf("Enter number of steps: ");
+            scanf("%d", &steps);
+            if (penUp) { //keep the location of the turtle while the pen is up
+                if (currentDirection == 0) {
+                    currentY += steps;
+                }
+                else if (currentDirection == 1) {
+                    currentX += steps;
+                }
+                else if (currentDirection == 2) {
+                    currentY -= steps;
+                }
+                else {
+                    currentX -= steps;
+                }
+            }
+            else {
+                if (currentDirection == 0) {   //postive y direction
+                    for (int i = currentY + 1; i <= currentY + steps; i++) {
+                        board[currentX][i] = '*';
+                    }
+                    currentY += steps;  //update current  Y location
+                }
+                else if (currentDirection == 1) { //postive x direction
+                    for (int i = currentX + 1; i <= currentX + steps; i++) {
+                        board[i][currentY] = '*';
+                    }
+                    currentX += steps;  //update current x location
+                }
+                else if (currentDirection == 2) {  //negative y direction
+                    for (int i = currentY - 1; i >= currentY - steps; i--) {
+                        board[currentX][i] = '*';
+                    }
+                    currentY -= steps;      //update current  Y location
+                }
+                else { //negative x direction
+                    for (int i = currentX - 1; i >= currentX - steps; i--) {
+                        board[i][currentY] = '*';
+                    }
+                    currentX -= steps; //update current x location                
+                }
+            }
+        }
+        else if(command == 6)
+        {
+            for (int i = 0; i < 50; i++) {
+                for (int j = 0; j < 50; j++) {
+                    printf("%c", board[i][j]);
+                }
+                printf("\n");
+            }
+            break;
+        }
+        else if (command == 9)
+        {
+            break;
+        }
+    }
+    return 0;
+}
+
+
+
+
+/*
+output
+
+
+Enter the command for the turtle: 2
+Enter the command for the turtle: 5
+Enter number of steps: 12
+Enter the command for the turtle: 3
+Enter the command for the turtle: 5
+Enter number of steps: 12
+Enter the command for the turtle: 3
+Enter the command for the turtle: 5
+Enter number of steps: 12
+Enter the command for the turtle: 3
+Enter the command for the turtle: 5
+Enter number of steps: 12
+Enter the command for the turtle: 6
+*************
+*           *
+*           *
+*           *
+*           *
+*           *
+*           *
+*           *
+*           *
+*           *
+*           *
+*           *
+*************
+*/
