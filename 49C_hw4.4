@@ -1,0 +1,389 @@
+#include <stdio.h>
+#include<string.h>
+
+struct record {
+  unsigned int num;
+  char toolname[30];
+  int quantity;
+  double cost;
+};
+
+//function phototypes
+unsigned int menuOptions(void);
+void textFile(FILE *readPtr);
+void updateRecord(FILE *fPtr);
+void newRecord(FILE *fPtr);
+void deleteRecord(FILE *fPtr);
+
+
+//function main to execute program
+int main(void) {
+    unsigned int choice;  // variable to store input by user
+    FILE *cfPtr;
+
+    //open file "hardware.dat";
+    cfPtr = fopen("hardware.dat", "rb+");
+
+    fclose(cfPtr);  
+    
+    //if file doesnt exist, it cannot be opened
+    if( (cfPtr = fopen("hardware.dat", "rb+")) == NULL) {
+      puts("File cannot be opened.");
+    }
+
+    else {
+      while( (choice=menuOptions() )!=5) //continues until user exit the pogram
+      {
+        switch (choice) {
+          //create text file from record file
+          case 1: textFile(cfPtr);
+            break;
+          //update a record
+          case 2: updateRecord(cfPtr);
+            break;
+          //new record
+          case 3: newRecord(cfPtr);
+            break;
+          //delete a record
+          case 4: deleteRecord(cfPtr);
+            break;
+          // if user did not put a valid choice
+          default : puts("Wrong choice\n");
+            break;  
+
+  }
+
+}
+
+    fclose(cfPtr);  //fclose closes the file
+
+}
+
+}
+
+//formatted text file for printting
+void textFile(FILE *readPtr) 
+{
+  FILE *writePtr; //hardware.txt file pointer
+
+ //fopen opens the file
+  if ( (writePtr = fopen("hardware.txt", "w") ) == NULL )
+  {
+    puts("File cannot be opened.\n");   
+  }
+else {
+    rewind(readPtr);  //set pointer to beginning of file
+    //print out the header of each category
+    fprintf(writePtr, "%s\t   %5s\t    %5s\t%11s\t\n", "Record#", " tool name", "     quantity", "cost");
+
+    //copy all records from random-access file into text file
+    while(!feof(readPtr)) 
+    {
+      //record data with default information
+       struct record pData= { 0,"",0,0};
+       int result=fread(&pData, sizeof(struct record),1,readPtr);
+       //write the record to text file
+        if(result!=0 && pData.num!=0)
+        {
+        fprintf(writePtr, "%-12d%-22s%-6d%11.2f\n", pData.num,
+        pData.toolname, pData.quantity,pData.cost);
+        }       
+
+    }
+
+}
+    fclose(writePtr); //fclose closes the file
+}
+
+
+//function to update the record
+void updateRecord(FILE *fPtr) 
+{
+    int newQuantity; //new quantity to update the record
+    //create record data with no information
+    struct record pData= { 0,"",0,0};
+    //prompt
+    printf("%s", "Enter record number to update(1-100): ");
+    unsigned int rec; //record number;
+    scanf("%d", &rec);//scan the record number;
+
+    //move file pointer to correct record in file
+    fseek(fPtr, (rec-1)*(sizeof (struct record)), SEEK_SET);
+    fread(&pData, sizeof(struct record),1, fPtr);
+
+    //if account doesn't exist, print error message.
+    if ( pData.num==0) 
+    {
+      printf("Error occured while opening file!");
+    }
+
+    else //if found, update the record.
+    {
+      //print the original record data
+      printf("%-12d%-20s%-16d%11.2f\n", pData.num,pData.toolname,pData.quantity, pData.cost);
+
+      //enter the amount to update
+      printf("%s", "Enter updated amount");
+      scanf("%d", &newQuantity);
+      pData.quantity+=newQuantity; //add the new amount to the old amount
+      //print the updated version of the record
+      printf("%-12d%-20s%-16d%11.2f\n", pData.num,pData.toolname,pData.quantity,pData.cost);
+
+      //move file pointer to correct record in file
+      fseek(fPtr, (rec-1) *sizeof(struct record), SEEK_SET);
+      //write updated record
+      fwrite(&pData, sizeof(struct record),1, fPtr);
+    }
+}
+
+//delete an existing record
+void deleteRecord(FILE *fPtr) {
+    struct record pData;
+    struct record blankPerson = { 0,"",0,0};
+
+    //gets the number of the record to be deleted
+    printf("%s", "Enter record number to delete(1-100): ");
+    unsigned int newNum;
+    scanf("%d", &newNum) ;
+
+    //move file pointer to correct record in file
+    fseek(fPtr, (newNum-1)*sizeof(struct record), SEEK_SET);
+    //reads the file
+    fread(&pData, sizeof(struct record),1, fPtr);
+
+
+    //if file is not found, print error message
+    if ( pData.num == 0 )
+    {
+      printf("Error occured while opening file.\n");
+    }
+    else {  //if file is found
+      //find the file, delete and replace with a blank one.
+      fseek(fPtr, (newNum -1) * sizeof(struct record), SEEK_SET);
+      fwrite(&blankPerson, sizeof( struct record), 1,fPtr); }
+}
+
+void newRecord(FILE *fPtr) 
+{
+  struct record pData = { 0,"",0,0};
+
+  //gets the new record number to add
+  printf("%s","Enter record number: ");
+  unsigned int newNum;
+  scanf("%d", &newNum);
+
+  //move the file pointer to the correct pointer
+  fseek(fPtr, (newNum-1) * sizeof(struct record),SEEK_SET);
+  //read the file
+  fread(&pData, sizeof(struct record),1,fPtr);
+
+  //if file is not found, print error message
+  if ( pData.num !=0 ) {
+    printf("This record already existed.\n");
+  }
+  else {
+    //prompt for different information to be added to the new record
+    printf("Enter the toolname of the person's record to be added.\n");
+    scanf("%s[^\n]", pData.toolname);
+
+    printf("Enter the amount of the tool whose record is being added.\n");
+    scanf("%d", &pData.quantity);
+
+    printf("Enter the cost of the tool whose record to be added.\n");
+    scanf("%lf", &pData.cost);
+
+    pData.num=newNum;
+
+    //move pointer to the correct record in file
+    fseek(fPtr, (pData.num-1) *sizeof(struct record), SEEK_SET);
+    //insert this record into file
+    fwrite(&pData, sizeof(struct record),1, fPtr);
+
+  }
+}
+
+//menuOptions for the functions of this file
+unsigned int menuOptions(void) 
+{
+  unsigned int choice;
+  printf("Enter choice\n"
+  "1- To create a record to text file hardware.txt for printing \n"
+  "2- Update a record \n"
+  "3- New record \n"
+  "4- Delete an record \n"
+  "5- end program? \n ");
+
+  scanf("%u", &choice);
+  return choice;
+}
+
+
+/* output of the program */
+
+
+Enter choice
+1- To create a record to text file hardware.txt for printing 
+2- Update a record 
+3- New record 
+4- Delete an record 
+5- end program? 
+ 1
+Enter choice
+1- To create a record to text file hardware.txt for printing 
+2- Update a record 
+3- New record 
+4- Delete an record 
+5- end program? 
+ 1
+Enter choice
+1- To create a record to text file hardware.txt for printing 
+2- Update a record 
+3- New record 
+4- Delete an record 
+5- end program? 
+ 3
+Enter record number: 3
+Enter the toolname of the person's record to be added.
+Electric sander
+Enter the amount of the tool whose record is being added.
+7
+Enter the cost of the tool whose record to be added.
+57.98
+Enter choice
+1- To create a record to text file hardware.txt for printing 
+2- Update a record 
+3- New record 
+4- Delete an record 
+5- end program? 
+ 3
+Enter record number: 17
+Enter the toolname of the person's record to be added.
+Hammer
+Enter the amount of the tool whose record is being added.
+76
+Enter the cost of the tool whose record to be added.
+11.99
+Enter choice
+1- To create a record to text file hardware.txt for printing 
+2- Update a record 
+3- New record 
+4- Delete an record 
+5- end program? 
+ 1
+Enter choice
+1- To create a record to text file hardware.txt for printing 
+2- Update a record 
+3- New record 
+4- Delete an record 
+5- end program? 
+ 3
+Enter record number: 24
+Enter the toolname of the person's record to be added.
+Jig saw
+Enter the amount of the tool whose record is being added.
+21
+Enter the cost of the tool whose record to be added.
+11.00
+Enter choice
+1- To create a record to text file hardware.txt for printing 
+2- Update a record 
+3- New record 
+4- Delete an record 
+5- end program? 
+ 3
+Enter record number: 39
+Enter the toolname of the person's record to be added.
+Lawn mover
+Enter the amount of the tool whose record is being added.
+3
+Enter the cost of the tool whose record to be added.
+79.50
+Enter choice
+1- To create a record to text file hardware.txt for printing 
+2- Update a record 
+3- New record 
+4- Delete an record 
+5- end program? 
+ 3
+Enter record number: 56
+Enter the toolname of the person's record to be added.
+power saw
+Enter the amount of the tool whose record is being added.
+18
+Enter the cost of the tool whose record to be added.
+99.99
+Enter choice
+1- To create a record to text file hardware.txt for printing 
+2- Update a record 
+3- New record 
+4- Delete an record 
+5- end program? 
+ 1
+Enter choice
+1- To create a record to text file hardware.txt for printing 
+2- Update a record 
+3- New record 
+4- Delete an record 
+5- end program? 
+ 3
+Enter record number: 68
+Enter the toolname of the person's record to be added.
+screwdriver 
+Enter the amount of the tool whose record is being added.
+106
+Enter the cost of the tool whose record to be added.
+6.99
+Enter choice
+1- To create a record to text file hardware.txt for printing 
+2- Update a record 
+3- New record 
+4- Delete an record 
+5- end program? 
+ 3
+Enter record number: 77
+Enter the toolname of the person's record to be added.
+Sledge hammer
+Enter the amount of the tool whose record is being added.
+11
+Enter the cost of the tool whose record to be added.
+21.50
+Enter choice
+1- To create a record to text file hardware.txt for printing 
+2- Update a record 
+3- New record 
+4- Delete an record 
+5- end program? 
+ 3
+Enter record number: 83
+Enter the toolname of the person's record to be added.
+Wrench
+Enter the amount of the tool whose record is being added.
+34
+Enter the cost of the tool whose record to be added.
+7.50
+Enter choice
+1- To create a record to text file hardware.txt for printing 
+2- Update a record 
+3- New record 
+4- Delete an record 
+5- end program? 
+ 1
+Enter choice
+1- To create a record to text file hardware.txt for printing 
+2- Update a record 
+3- New record 
+4- Delete an record 
+5- end program? 
+
+Record#	    tool name	         quantity	       cost	
+3           Electric sander       7           57.98
+17          Hammer                76          11.99
+24          Jig saw               21          11.00
+39          Lawn mover            3           79.50
+56          power saw             18          99.99
+68          screwdriver           106          6.99
+77          Sledge hammer         11          21.50
+83          Wrench                34           7.50
+
+
+*/
