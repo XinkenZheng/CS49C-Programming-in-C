@@ -1,0 +1,143 @@
+// Homework 5. 1
+#include <stdio.h>
+#include <stdlib.h>
+#include <ctype.h>
+
+/* stack structure */
+struct stackNode
+{
+    char data;
+    struct stackNode *nextPtr;
+};
+
+typedef struct stackNode StackNode;
+typedef StackNode *StackNodePtr;
+
+/* function to push a value into the stack */
+void push(StackNodePtr *topPtr, int value)
+{
+    StackNodePtr tempPtr;                // pointer to new node
+    tempPtr = malloc(sizeof(StackNode)); // if memory was allocated then assign data
+    if (tempPtr != NULL)
+    {
+        tempPtr->data = value;
+        tempPtr->nextPtr = *topPtr;
+        *topPtr = tempPtr;
+    }
+    else    // no space is available.
+    {
+        printf("%d not inserted \n", value);
+    }
+}
+
+// function to pop a value off the stack
+int pop(StackNodePtr *topPtr)
+{
+    StackNodePtr tempPtr;       //temp pointer to point at the first item
+    int pop;                    
+
+    tempPtr = *topPtr;          
+    pop = (*topPtr)->data;          //store the data of the first item
+    *topPtr = (*topPtr)->nextPtr;   //point the top pointer to the next node
+    free(tempPtr);              //free the temp node
+
+    return pop;                     //return the pop data
+}
+
+// function to print the stack 
+void printStack(StackNodePtr topPtr)
+{
+    if (topPtr == NULL) // if the stack is empty
+    {
+        printf("The stack is empty\n");
+    }
+    else 
+    {
+        printf("The stack is: \n");
+        // while is not the end of the stack
+        while(topPtr != NULL)
+        {
+            printf("%d -> ", topPtr->data); // print node value
+            topPtr = topPtr->nextPtr;       // point to next node
+        }
+        printf("NULL\n\n");                 // end of stack
+    }
+}
+
+/* function to check if the stack is empty */
+int isEmpty(StackNodePtr topPtr)
+{
+    return topPtr == NULL;  //return 1 if true, 0 if false.
+}
+
+// function to evaluate the expression (op1) operator (op2)
+int calculate(int op1, int op2, char operator)
+{
+    int result = 0;     // store the value computed to result
+
+    /* cases for the six different operators */   
+    if(operator == '+')
+      result = op1 + op2;
+    else if(operator == '-')
+      result = op1 - op2;
+    else if(operator == '*')
+      result = op1 * op2;
+    else if(operator == '/')
+      result = op1 / op2;
+    else if(operator == '%')
+      result = op1 % op2;
+    else if(operator == '^')
+      result = op1 ^ op2;
+     
+    return result;      // return the result
+}
+
+// function to evaluate the postfix expression
+int evaluatePostfixExpression(char *c)
+{
+    StackNodePtr stackPtr = NULL;       
+                                
+    for(int i = 0; c[i]; ++i)         // for each char in the expression
+    {
+        if(isdigit(c[i]))             //if the character is a number
+        {
+            push(&stackPtr, c[i] - '0');  // push it to the stack
+        }
+        // if it is a operator
+        else if (c[i] == '+' || c[i] == '-' || c[i] == '*' 
+              || c[i] == '/' || c[i] == '%' || c[i] == '^')
+        {
+          int first = pop(&stackPtr);      // pop the first value
+          int second = pop(&stackPtr);      // pop the second value
+          int result = calculate(second, first, c[i]);  // compute the expression
+          push(&stackPtr, result);          // push the result to the stack
+        }
+    }
+    return pop(&stackPtr);              // return the first item on the stack
+}
+
+/* function main for execution */
+int main( void )
+{
+    char expression[100];             // array to hold the expression
+    printf("Homework 5.2 Postfix Expression\n");
+    printf("Enter a postfix expression: ");    //ask the user to input a postfix
+    fgets(expression, 100, stdin);    
+    printf("the result of the postfix expression is %d\n", evaluatePostfixExpression(expression));
+}
+
+/*
+Sample Cases:
+Homework 5.2 Postfix Expression
+Enter a postfix expression: 68+5*86-+
+the result of the postfix expression is 72
+
+Homework 5.2 Postfix Expression
+Enter a postfix expression: 90-21*2+/
+the result of the postfix expression is 2
+
+Homework 5.2 Postfix Expression
+Enter a postfix expression: 90-21*2+/
+the result of the postfix expression is 2
+
+*/
