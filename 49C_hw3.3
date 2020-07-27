@@ -1,0 +1,114 @@
+#include <stdio.h>
+
+void packCharacter(char a, char b); //function phototype
+void displayBits(unsigned int x); //function for displaying
+void unpackCharacter(unsigned int x); //function phototype
+
+
+//variable for integer after it is packed.
+unsigned int packed;
+//variable to store first character;
+char first;
+//variable to store second character;
+char second;
+//function main to excute program
+int main(void) {
+  //prompt for user to input two characters
+  printf("enter two characters followed by a space: \n");
+  char a; //first character
+  char b; //second character
+  scanf("%c %c", &a,&b); //scan the input by user
+
+  //prompt for useful information for first charcter
+  printf("'%c' as an unsigned interger in bit is: \n", a);
+  //display the bits in the first character
+  displayBits(a);
+  //new line for clarity
+  printf("\n");
+
+  //same thing for second character
+  printf("'%c' as an unsigned interger in bit is: \n", b);
+  displayBits(b);
+  printf("\n");
+
+  //when two characters are combined
+  printf("'%c' and '%c' combined as an unsigned interger in bit is: \n", a, b);
+  
+  //pack the characters together;
+  packCharacter(a, b);
+  printf("\n");
+  //unpacked the characters;
+  unpackCharacter(packed);
+  //show the result;
+  printf("the characters for the value %d after unpacked are %c and %c.\n", packed, first, second);
+}
+
+//function packCharacters;
+void packCharacter(char a, char b)
+{
+  //leftshift the first character by 8,
+  //and use bitwise operator between the two values a & b
+  //diplay the value in bits
+  packed = (a<<8 |b);
+  displayBits(packed);
+
+}
+
+
+void unpackCharacter(unsigned int x)
+{
+  //mask1
+  int mask =65280;
+  //mask2
+  int mask2 = 255;
+  //store integer value after combining packed and mask;
+  int masked= (packed & mask);
+  //cast integer to a charater and store in first;
+  first = (char)(masked>>8);
+  //combine packed and mask2 for the second character value.
+  second = (char)(packed & mask2);
+}
+
+//function for displaying bits
+void displayBits(unsigned int x)
+{
+  //define i and leftshit 31 bits;
+   unsigned int i = 1 <<31;
+  
+  printf("%u =", x);
+
+  //loop through each bits
+  for(unsigned int c = 1; c <= 32; ++c){
+    putchar(x & i ? '1' : '0');
+    x<<=1;
+
+    if(c%8==0)  //separate 8 bits by a space
+    {
+      putchar(' ');
+    }
+  }
+        
+} 
+
+/* output
+
+enter two characters followed by a space: 
+A B
+'A' as an unsigned interger in bit is: 
+65 =00000000 00000000 00000000 01000001 
+'B' as an unsigned interger in bit is: 
+66 =00000000 00000000 00000000 01000010 
+'A' and 'B' combined as an unsigned interger in bit is: 
+16706 =00000000 00000000 01000001 01000010 
+the characters for the value 16706 after unpacked are A and B.
+
+enter two characters followed by a space: 
+e f
+'e' as an unsigned interger in bit is: 
+101 =00000000 00000000 00000000 01100101 
+'f' as an unsigned interger in bit is: 
+102 =00000000 00000000 00000000 01100110 
+'e' and 'f' combined as an unsigned interger in bit is: 
+25958 =00000000 00000000 01100101 01100110 
+the characters for the value 25958 after unpacked are e and f.
+*/
