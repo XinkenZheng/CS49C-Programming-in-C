@@ -1,0 +1,118 @@
+#include<stdio.h>
+#include<time.h>
+#include<stdlib.h>
+#include<ctype.h>
+//1 = paper;
+//2 = rock;
+//3 = sissor;
+//this program will determine if the computer or the user wins in a rock, paper, sissor game.
+int main()
+{
+    int player2Wins=0;   //computer
+    int player1Wins=0;  //user
+    int counter = 0;   //number of imput
+    srand ((int) time (NULL));
+
+    //will loop ten times
+    for(int i =0; i<10; i++)
+    {
+       printf("Enter R for(ROCK), P for (PAPER), or S for(SISSOR)\n");
+       char player1;
+       scanf("%s", &player1);
+       counter = counter +1;
+       int player2 = rand ( ) % 3 + 1;
+       printf(" Player2 input is %d\n ", player2);  //prints out the value for the computer
+
+
+        if((player1 == 'p' || player1 == 'P') && player2 ==2) //paper vs rock
+        {
+          player1Wins = player1Wins + 1;
+          printf("Player1 wins\n");     
+        }
+        else if((player1 == 'p' || player1 == 'P') && player2 == 3)  //paper vs sissor
+        {
+          player2Wins = player2Wins + 1;
+          printf("Player2 wins\n");
+        }
+  
+
+
+        if((player1 == 'r' || player1 == 'R') && player2 ==3)//rock vs sissor
+        {
+          player1Wins = player1Wins +1;
+          printf("Player1 wins\n");
+        }
+        else if((player1 == 'r' || player1 == 'R') && player2 ==1)//rock vs paper
+        {
+          player2Wins = player2Wins + 1;
+          printf("Player2 wins\n");
+        }
+
+
+        if((player1 == 'S' || player1 == 's') && player2 == 1)//sissor vs rock
+        {
+          player1Wins = player1Wins +1;
+          printf("Player1 wins\n");
+        }
+        else if((player1 == 'S' || player1 == 's') && player2==2)//sissor vs paper
+        {
+          player2Wins = player2Wins + 1;
+          printf("Player2 wins\n");
+        }
+
+        //if input = 10, break the loop
+        if(counter == 10)
+        {
+          break;
+        }
+    }
+    
+    
+    printf("Player 1 wins %d rounds\n", player1Wins);
+    printf("Player 2 wins %d rounds\n", player2Wins);
+    
+}
+
+
+/*
+Test cases:
+Enter R for(ROCK), P for (PAPER), or S for(SISSOR)
+R
+ Player2 input is 1
+ Player2 wins
+Enter R for(ROCK), P for (PAPER), or S for(SISSOR)
+P
+ Player2 input is 2
+ Player1 wins
+Enter R for(ROCK), P for (PAPER), or S for(SISSOR)
+S
+ Player2 input is 3
+ Enter R for(ROCK), P for (PAPER), or S for(SISSOR)
+S
+ Player2 input is 3
+ Enter R for(ROCK), P for (PAPER), or S for(SISSOR)
+P
+ Player2 input is 3
+ Player2 wins
+Enter R for(ROCK), P for (PAPER), or S for(SISSOR)
+S
+ Player2 input is 2
+ Player2 wins
+Enter R for(ROCK), P for (PAPER), or S for(SISSOR)
+R
+ Player2 input is 3
+ Player1 wins
+Enter R for(ROCK), P for (PAPER), or S for(SISSOR)
+S
+ Player2 input is 3
+ Enter R for(ROCK), P for (PAPER), or S for(SISSOR)
+P
+ Player2 input is 2
+ Player1 wins
+Enter R for(ROCK), P for (PAPER), or S for(SISSOR)
+R
+ Player2 input is 3
+ Player1 wins
+Player 1 wins 4 rounds
+Player 2 wins 3 rounds
+*/
