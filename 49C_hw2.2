@@ -1,0 +1,124 @@
+//program to convert a word to piglatin
+#include<stdio.h>
+#include<string.h>
+#include<stdlib.h>
+#include<stdbool.h>
+#include<ctype.h>
+
+//lowercase all letters in the word;
+void lower(char word[])
+{
+    for (int i = 0; word[i] != '\0'; i++) {
+        word[i] = tolower(word[i]);
+    }
+}
+
+//check if a letter is a vowel
+bool isVowel(char v)
+{
+    if (v == 'a' || v == 'e' || v == 'i' || v == 'o' || v == 'u')
+    {
+        return true;
+    }
+    return false;
+}
+
+//function piglatin
+//@param(word[]) takes in array of characters.
+void pigLatin(char word[])
+{
+    char yay[] = "yay";
+    char ay[] = "ay";
+    char cons[5];  //include all consonants, not more than 4.
+    char piglatin[50]; //max input is 50 letters
+    lower(word);
+    strcpy(piglatin, word);
+    if (isVowel(word[0]) == true)//if first letter is vowel, just add yay
+    {
+        strcat(piglatin, yay); //add yay;
+    }
+    else
+    {
+        for (int i = 0; word[i] != '\n'; i++)
+        {
+            if (word[i] == 'q' && word[i + 1] == 'u') //if qu is a pair, it is a consonant
+            {
+                char qu[] = "qu"; //store consonants
+                char* rest = piglatin + 2; //rest of the word after 'qu'
+                rest = strncat(rest, qu, 2); //put qu after the rest of the word;
+                strcat(rest, ay); //add ay after the word
+                strcpy(piglatin, rest);
+                break;
+            }
+            else if (i > 0 && word[i] == 'y')
+            {
+                int location = i; //store location of letter y
+                char* b = word + location; //print the word starting at location y
+                for (int j = 1; j < location; j++) //loop to store all letters up to y
+                {
+                  printf("%d\n",location);
+                    char temp = word[j];
+                    strcat(cons, &temp); //add to consonant
+                    printf("%s\n",cons);
+                }
+                strcat(b, cons); //combine rest of y with consonants
+                strcpy(piglatin, b); //copy b to piglatin
+                strcat(piglatin, ay); //add ay to the end
+                break;
+            }
+            else {
+                if (isVowel(word[i]) != true) { //if letter is not vowel
+                    char temp = word[i];    //store and put in consonant
+                    strcat(cons, &temp);
+                }
+                else {
+                    char* b = word + i; //gets the part starting at vowel
+                    strcat(b, cons); //add the consants
+                    strcpy(piglatin, b);
+                    strcat(piglatin, ay); //add ay;
+                    break;
+                }
+
+            }
+
+        }
+    }
+
+    printf("%s", piglatin);
+}
+
+
+int main(void)
+{
+    printf("enter a word\n");
+    char word[20];
+    scanf("%s", word);
+    pigLatin(word);
+}
+
+
+
+//output
+/**
+enter a word
+yes
+esya
+
+enter a word
+strip
+ipstray
+
+enter a word
+example
+exampleyay
+
+enter a word
+bygone
+ygonebay
+
+enter a word
+test
+esttay
+
+**/
+
