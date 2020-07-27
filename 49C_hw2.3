@@ -1,0 +1,58 @@
+//program to compute the possible sum of two dice
+#include<stdio.h>
+#include<stdlib.h>
+#include<time.h>
+#define SIZE 13
+
+int main(void) {
+ int frequency[SIZE] = {0};
+
+ srand(time(NULL));
+
+//roll dice for 36000 times.
+ for(int roll = 1; roll <=36000; ++roll)
+ {
+   size_t dice1 = 1 + rand()%6; 
+   size_t dice2 = 1 + rand()%6;
+   size_t result = dice1 + dice2;
+   ++frequency[result];
+ }
+
+//print header
+ printf("%s%17s\n", "Face", "Frequency");
+
+//print result in tublar format
+ for(size_t result =2; result < SIZE; ++result)
+  printf("%4lu%17d\n", result, frequency[result]);
+
+}
+
+
+/**
+Face        Frequency
+   2             1031
+   3             2027
+   4             2968
+   5             3964
+   6             4973
+   7             5905
+   8             5133
+   9             4027
+  10             3000
+  11             1956
+  12             1016
+
+
+Face        Frequency
+   2             1005
+   3             2017
+   4             3005
+   5             4100
+   6             4950
+   7             6049
+   8             5002
+   9             3942
+  10             2990
+  11             1965
+  12              975
+**/
