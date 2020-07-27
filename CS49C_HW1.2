@@ -1,0 +1,42 @@
+//The following function determines if the input is a palidrome number
+#include <stdio.h>
+
+int main(void) {
+  printf("Enter a number");
+  int num;
+  scanf("%d", &num);
+  int reverse=0;
+  int current =num;
+  while(num > 0)
+  {
+    reverse = reverse + (num%10); //getting the LSB of the number
+    num = num/10;
+    if(num >0)
+    {
+      reverse = reverse * 10; //getting the next dight of the original number in reverse;
+    }
+  }
+  if(reverse == current) //return true if reverse is the same as the original number
+  {
+    printf("%d True", reverse);
+  }
+  else
+  {
+    printf("%d False", reverse);
+  }
+}
+
+/*
+
+Enter a number2002
+2002 True
+
+Enter a number45677654
+45677654 True
+
+Enter a number7638293
+3928367 False
+
+Enter a number12344362
+26344321 False
+*/
