@@ -1,0 +1,250 @@
+/* Homework 5.2 with extra credit functions. */
+#include <stdio.h>
+#include <stdlib.h>
+#include <time.h>
+
+/* treeNode structure */
+struct treeNode {
+    int data;
+    struct treeNode *leftPtr;
+    struct treeNode *rightPtr;
+};
+
+typedef struct treeNode TreeNode;
+typedef TreeNode *TreeNodePtr;
+
+/*function prototype*/
+void insertNode(TreeNodePtr *, int value);
+TreeNodePtr removeNode(TreeNodePtr, int value);
+TreeNodePtr minimum(TreeNodePtr);
+
+//Extra Credit function//
+void inOrder(TreeNodePtr);
+void preOrder(TreeNodePtr);
+void postOrder(TreeNodePtr);
+
+
+
+int main()
+{
+    int i, num;
+    TreeNodePtr rootPtr = NULL;
+    
+    srand(time(NULL));
+
+    /* generate 15 random numbers to insert to the tree */
+    for(i=0; i<15; i++) {
+        num = rand() % 15;
+        insertNode(&rootPtr, num);
+    }    
+    
+    printf("homework5.2 with extra credit: deleteNode function \n");
+    /* print the elements before sorting */
+    printf("The preOrder of the tree is:\n");
+    preOrder(rootPtr);
+    
+    /* Traverse the elements in the tree inOrder */
+    printf("\n\nThe inOrder of the tree is:\n");
+    inOrder(rootPtr);
+    
+    /* Traverse the elements after being sorted  */
+    printf("\n\nThe postOrder of the tree is:\n");
+    postOrder(rootPtr);
+    
+    /* scan for a value to delete by the user */
+    printf("\n\nEnter value to remove in the tree ");
+    int removeValue;
+    scanf("%d", &removeValue);
+  
+    
+    /* delete the node */
+    rootPtr = removeNode(rootPtr, removeValue);
+
+    /* print the elements in preOrder */
+    printf("\nThe preOrder of the tree after deletion is:\n");
+    preOrder(rootPtr);
+    
+    /* print the elements inOrder */
+    printf("\n\nThe inOrder of the tree after deletion is:\n");
+    inOrder(rootPtr);
+    
+    /* print the elements in postOrder */
+    printf("\n\nThe postOrder of the tree after deletion is:\n");
+    postOrder(rootPtr);
+
+
+    return 0;
+}
+
+
+/* Insert a node to its correct position */
+void insertNode(TreeNodePtr *treePtr, int value)
+{
+    /* if the tree is empty, set it to the first node in the tree */
+    if( *treePtr == NULL )
+    {
+        *treePtr = malloc( sizeof( TreeNode ) );
+        
+        if(*treePtr != NULL) {
+            ( *treePtr )->data = value;
+            ( *treePtr )->leftPtr = NULL;
+            ( *treePtr )->rightPtr = NULL;
+        }
+        else
+            printf( "%c not inserted. No memory available.\n", value );
+    }
+    /* if value is less than the root, insert to left, if greater insert to right */
+    else {
+        if( value < (*treePtr)->data )
+            insertNode( &( ( *treePtr )->leftPtr ), value );
+        else if( value > (*treePtr)->data )
+            insertNode( &( ( *treePtr )->rightPtr ), value );
+    }
+    
+}
+
+/* recursive function to remove a node from the tree */
+TreeNodePtr removeNode(TreeNodePtr nodePtr, int value)
+{
+  /* if nodePtr is null, return a null node */
+    if( nodePtr == NULL )
+        return NULL;
+  /* if the node is less than the root, go left, if is bigger, go right */
+    else if( value < nodePtr->data ) 
+        nodePtr->leftPtr = removeNode( nodePtr->leftPtr, value );
+    else if( value > nodePtr->data )
+        nodePtr->rightPtr = removeNode( nodePtr->rightPtr, value );
+    else 
+    {
+        //if that node has no children, just delete
+        if( nodePtr->leftPtr == NULL && nodePtr->rightPtr == NULL ){
+            free(nodePtr);
+            nodePtr = NULL;    
+        }
+        //if the node has one children
+        else if( nodePtr->leftPtr == NULL )
+        {
+            TreeNodePtr temp = nodePtr;
+            nodePtr = nodePtr->rightPtr;
+            free(temp);   
+        }
+        else if( nodePtr->rightPtr == NULL )
+        {
+       
+            TreeNodePtr temp = nodePtr;
+            nodePtr = nodePtr->leftPtr;
+            free(temp); 
+        }
+       //if the node has two children
+        else
+        {
+            TreeNodePtr temp = minimum(nodePtr->rightPtr);
+            nodePtr->data = temp->data;
+            nodePtr->rightPtr = removeNode( nodePtr->rightPtr, temp->data );
+        }
+    }
+    return nodePtr;
+}
+
+
+/* Find the node with the lowest value in the branch passed */
+TreeNodePtr minimum(TreeNodePtr nodePtr)
+{
+    /* if the tree is null */
+    if(nodePtr == NULL) return NULL;
+    
+    /* if this is the lowest value return it */
+    if(nodePtr->leftPtr == NULL)
+        return nodePtr;
+    else
+    /* keep looking on the leftNode for the smallest value */
+        return minimum( nodePtr->leftPtr ); 
+}
+
+
+/* function to print the tree in order */
+void inOrder(TreeNodePtr nodePtr)
+{
+    if( nodePtr != NULL ) {
+        inOrder( nodePtr->leftPtr );
+        printf( "%5d", nodePtr->data );
+        inOrder( nodePtr->rightPtr );
+    }
+}
+
+/* function to print the tree when it first added */
+void preOrder(TreeNodePtr nodePtr)
+{
+    if( nodePtr != NULL ) {
+        printf( "%5d", nodePtr->data );
+        preOrder( nodePtr->leftPtr );
+        preOrder( nodePtr->rightPtr );
+    }
+}
+
+/* function to print the tree after the tree is sorted */
+void postOrder(TreeNodePtr nodePtr)
+{
+    if( nodePtr != NULL ) {
+        postOrder( nodePtr->leftPtr );
+        postOrder( nodePtr->rightPtr );
+        printf( "%5d", nodePtr->data );
+    }
+}
+
+/* 
+Output  
+try#1
+homework5.2 with extra credit: deleteNode function 
+The preOrder of the tree is:
+    2    1    0   13    3   11    6    7    9   12   14
+
+The inOrder of the tree is:
+    0    1    2    3    6    7    9   11   12   13   14
+
+The postOrder of the tree is:
+    0    1    9    7    6   12   11    3   14   13    2
+
+Enter value to remove in the tree 11
+
+The preOrder of the tree after deletion is:
+    2    1    0   13    3   12    6    7    9   14
+
+The inOrder of the tree after deletion is:
+    0    1    2    3    6    7    9   12   13   14
+
+The postOrder of the tree after deletion is:
+    0    1    9    7    6   12    3   14   13    2
+
+try #2
+homework5.2 with extra credit: deleteNode function 
+The preOrder of the tree is:
+    1    0   14    5    2    7   10    8    9   11   12
+
+The inOrder of the tree is:
+    0    1    2    5    7    8    9   10   11   12   14
+
+The postOrder of the tree is:
+    0    2    9    8   12   11   10    7    5   14    1
+
+Enter value to remove in the tree 9
+
+The preOrder of the tree after deletion is:
+    1    0   14    5    2    7   10    8   11   12
+
+The inOrder of the tree after deletion is:
+    0    1    2    5    7    8   10   11   12   14
+
+The postOrder of the tree after deletion is:
+    0    2    8   12   11   10    7    5   14    1 
+
+
+
+
+
+
+
+
+
+
+*/
