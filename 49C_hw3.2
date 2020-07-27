@@ -1,0 +1,90 @@
+#include <stdio.h>
+
+void packCharacter(char a, char b); //function phototype
+void displayBits(unsigned int x); //function for displaying
+
+
+//function main to excute program
+int main(void) {
+  //prompt for user to input two characters
+  printf("enter two characters followed by a space: \n");
+  char a; //first character
+  char b; //second character
+  scanf("%c %c", &a,&b); //scan the input by user
+
+  //prompt for useful information for first charcter
+  printf("'%c' as an unsigned interger in bit is: \n", a);
+  //display the bits in the first character
+  displayBits(a);
+  //new line for clarity
+  printf("\n");
+
+  //same thing for second character
+  printf("'%c' as an unsigned interger in bit is: \n", b);
+  displayBits(b);
+  printf("\n");
+
+  //when two characters are combined
+  printf("'%c' and '%c' combined as an unsigned interger in bit is: \n", a, b);
+
+  //leftshift the first character by 8,
+  //and use bitwise operator between the two values a & b
+  //diplay the value in bits
+  displayBits(a<<8 |b);
+
+}
+
+//function packCharacters;
+void packCharacter(char a, char b)
+{
+  unsigned i = (unsigned int)a ;
+  unsigned j = (unsigned int)b;
+}
+
+//function for displaying bits
+void displayBits(unsigned int x)
+{
+  //define i and leftshit 31 bits;
+   unsigned int i = 1 <<31;
+  
+  printf("%u =", x);
+
+  //loop through each bits
+  for(unsigned int c = 1; c <= 32; ++c){
+    putchar(x & i ? '1' : '0');
+    x<<=1;
+
+    if(c%8==0)  //separate 8 bits by a space
+    {
+      putchar(' ');
+    }
+  }
+        
+} 
+
+/* output
+
+enter two characters followed by a space: 
+a b 
+'a' as an unsigned interger in bit is: 
+97 =00000000 00000000 00000000 01100001 
+'b' as an unsigned interger in bit is: 
+98 =00000000 00000000 00000000 01100010 
+'a' and 'b' combined as an unsigned interger in bit is: 
+24930 =00000000 00000000 01100001 01100010 
+
+'i' as an unsigned interger in bit is: 
+105 =00000000 00000000 00000000 01101001 
+'k' as an unsigned interger in bit is: 
+107 =00000000 00000000 00000000 01101011 
+'i' and 'k' combined as an unsigned interger in bit is: 
+26987 =00000000 00000000 01101001 01101011 
+
+'A' as an unsigned interger in bit is: 
+65 =00000000 00000000 00000000 01000001 
+'i' as an unsigned interger in bit is: 
+105 =00000000 00000000 00000000 01101001 
+'A' and 'i' combined as an unsigned interger in bit is: 
+16745 =00000000 00000000 01000001 01101001  
+
+*/
