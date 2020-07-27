@@ -1,0 +1,289 @@
+
+/*
+Explaination:
+
+I modify the remove function so that it will iterates through the list
+and check for the table with matching size first, the function will find 
+the first matching table with the given input,if given size is found,
+found will be set to true 
+
+*/
+
+
+
+// program a restaurant list with insert, remove, and showlist function
+#include <stdio.h>
+#include <string.h>
+#include <stdbool.h>
+
+char name[50][50];
+char list[50];
+int counter;      // number of items in the list
+int table[50];              // array for table size
+
+// function to insert name and table size to waitlist
+void insert(char list[50], int number)
+{
+    // a loop to check if a name is already exist in the list
+    for (int i = 0; i <= counter; i++)
+    {
+        if (strcmp(&name[i][0], list) == 0)         // compare to every name in the list to see if name exist already
+        {
+            printf("Name is already taken.\n");
+            printf("Please enter another name\n");
+            break;                                  // once found, break out the loop
+        }
+        else
+        {
+            counter++;                          // increment counter when a new item is added to the list;
+            strcpy(name[counter - 1], list);      // always add to the end of the list
+            table[counter - 1] = number;
+            break;                              //once added, break out the loop
+        }
+    }
+}
+
+//Removes (show and delete) oldest entry which fits the size of the table
+void removeTable(int size)
+{
+    bool found = false;       // indicates if a seat is found
+    int temp;               // temporary int for swapping
+    char strtemp[50];         // temporary string for swapping
+
+    // new condition to seat the next table available to the largest entry that fits its size
+    for (int i = 0; i < counter; i++)  // for loop to go through waitlist
+    {
+        if (table[i] == size)   // if a table matches available seat size
+        {
+            // table size swapping
+            for (int j = i; j < counter - 1; j++)    // for each element in array
+            {
+                temp = table[j];                // temp keep next number
+                table[j] = table[j + 1];      // swap the order with next one
+                table[j + 1] = temp;            // swap
+            }
+
+            // name swapping
+            for (int j = i; j < counter - 1; j++)     // for each element in array
+            {
+                strcpy(name[j], strtemp);          // temp keep next number
+                strcpy(name[j], name[j + 1]);      // swap the order with next one
+                strcpy(name[j + 1], strtemp);      // swap
+            }
+
+            counter--;                  // decrement counter since we are seating a table
+            found = true;              // seat has been found
+            printf("Seat found!\n");    // prompt
+            break;                      // break out of loop once seat is found
+        }
+    }
+
+    // if there is still no match, then look for the next table that fits
+    if (found != true)
+    {
+        for (int i = 0; i < counter; i++)  // for loop to go through waitlist
+        {
+            if (table[i] < size)   // if a party's table size < available seat size
+            {
+                // table size swapping
+                for (int k = i; k < counter - 1; k++)    // for each element in array
+                {
+                    temp = table[k];                // temp keep next number
+                    table[k] = table[k + 1];      // swap the order with next one
+                    table[k + 1] = temp;            // swap
+                }
+
+                // name swapping
+                for (int k = i; k < counter - 1; k++)     // for each element in array
+                {
+                    strcpy(name[k], strtemp);          // temp keep next number
+                    strcpy(name[k], name[k + 1]);      // swap the order with next one
+                    strcpy(name[k + 1], strtemp);      // swap
+                }
+
+                counter--;                  // decrement counter since we are seating a table
+                found = true;              // seat has been found
+                printf("Seat found!\n");    // prompt
+                break;                      // break out of loop once seat is found
+            }
+        }
+    }
+
+    if (found == false) // if seat still is not found (no matching table size)
+    {
+        printf("No waitlist entry matches available table size.\n");   // prompt
+    }
+}
+
+// show the waiting list in order
+void showList()
+{
+    for (int i = 0; i < counter; i++)
+    {
+        printf("Name: %s\t # of people: %d", &name[i][0], table[i]);
+        printf("\n");
+    }
+}
+
+// function main begins program execution
+int main(void)
+{
+    int command;        // command to be given
+    int seatSize;       // seat size to be passed to remove function
+    int tempnumber;     // number to be given to waiting list
+
+    printf("1: put down a name and a size of your table to the waiting list\n");
+    printf("2: remove the oldest table with the given size\n");
+    printf("3: shows the whole wait lit from oldest to newest\n");
+    printf("4: exit program\n");
+
+    // while flag is still at 0, keep iterating
+    while (true)
+    {
+        printf("\nEnter command: \n");
+        scanf("%d", &command);            // enter command
+        // insert a name and a size 
+        if (command == 1)
+        {
+            printf("what is the available table size?: ");
+            scanf("%s %d", &list[50], &tempnumber);  // enter name and table size
+            insert(&list[50], tempnumber);           // call to insert function
+        }
+        // remove oldest table with the matching size if command is 2
+        else if (command == 2)
+        {
+            printf("What is the available table size?\n");
+            scanf("%d", &seatSize);                         // enter seat size
+            removeTable(seatSize);                              // call to remove function
+        }
+        // display the list if command is 3
+        else if (command == 3)
+        {
+            printf("Current wait list:\n");
+            showList();                     // call to show list function
+        }
+        // exit program if command is 4
+        else if (command == 4)
+        {
+            printf("\nWaiting list has closed.");
+            break;
+        }
+    }
+}
+
+/*
+Enter command:
+1
+Enter name & table size: ivey 3
+Enter command:
+1
+Enter name & table size: zach 2
+Enter command:
+1
+Enter name & table size: joe 4
+Enter command:
+1
+Enter name & table size: kat 1
+Enter command:
+1
+Enter name & table size: ken 2
+Enter command:
+1
+Enter name & table size: barry 5
+Enter command:
+3
+Current wait list:
+Name: ivey   # of people: 3
+Name: zach   # of people: 2
+Name: nora    # of people: 4
+Name: kat    # of people: 1
+Name: ken   # of people: 2
+Name: barry  # of people: 5
+Enter command:
+2
+What is the available table size?
+1
+Seat found!
+Enter command:
+3
+Current wait list:
+Name: ivey   # of people: 3
+Name: zach   # of people: 2
+Name: nora    # of people: 4
+Name: ken   # of people: 2
+Name: barry  # of people: 5
+Enter command:
+2
+What is the available table size?
+4
+Seat found!
+Enter command:
+3
+Current wait list:
+Name: zach   # of people: 2
+Name: nora    # of people: 4
+Name: ken   # of people: 2
+Name: barry  # of people: 5
+Enter command:
+2
+What is the available table size?
+1
+No waitlist entry matches available table size.
+Enter command:
+2
+What is the available table size?
+4
+Seat found!
+Enter command:
+2
+What is the available table size?
+3
+Seat found!
+Enter command:
+3
+Current wait list:
+Name: joe    # of people: 4
+Name: barry  # of people: 5
+Enter command:
+1
+Enter name & table size: jack 2
+Enter command:
+1
+Enter name & table size: steph 3
+Enter command:
+1
+Enter name & table size: max 2
+Enter command:
+3
+Current wait list:
+Name: joe    # of people: 4
+Name: barry  # of people: 5
+Name: jack   # of people: 2
+Name: steph  # of people: 3
+Name: max    # of people: 2
+Enter command:
+2
+What is the available table size?
+4
+Seat found!
+Enter command:
+2
+What is the available table size?
+3
+Seat found!
+Enter command:
+3
+Current wait list:
+Name: barry  # of people: 5
+Name: steph  # of people: 3
+Name: max    # of people: 2
+Enter command:
+1
+Enter name & table size: barry 3
+Repeated name not allowed.
+Please try again!
+4
+Waiting List is now closed.
+*/
+
+
