@@ -1,0 +1,315 @@
+//program to convert Celsius to Fahrenheit and wise versa.
+#include <stdio.h>
+void celsius(void)
+{
+  for(int c = 0; c <= 100; ++c)
+  {
+    float temp;
+    temp = (c *1.8 + 32); //formula for finding Fehrenheit
+    printf("Celsius = %d  Fahrenheit = %.1f\n", c,temp);
+  }
+}
+
+void fahrenheit(void)
+{
+  for(int f= 32; f <= 212; ++f)
+  {
+    float temp2;
+    temp2 = (f-32) * 0.55555556; //formula for finding celsius
+    printf("Fahrenheit = %d  Celsius = %.1f\n", f, temp2);
+  }
+}
+
+
+int main(void) {
+  celsius();
+  fahrenheit();
+}
+
+
+/**
+Celsius = 0  Fahrenheit = 32.0
+Celsius = 1  Fahrenheit = 33.8
+Celsius = 2  Fahrenheit = 35.6
+Celsius = 3  Fahrenheit = 37.4
+Celsius = 4  Fahrenheit = 39.2
+Celsius = 5  Fahrenheit = 41.0
+Celsius = 6  Fahrenheit = 42.8
+Celsius = 7  Fahrenheit = 44.6
+Celsius = 8  Fahrenheit = 46.4
+Celsius = 9  Fahrenheit = 48.2
+Celsius = 10  Fahrenheit = 50.0
+Celsius = 11  Fahrenheit = 51.8
+Celsius = 12  Fahrenheit = 53.6
+Celsius = 13  Fahrenheit = 55.4
+Celsius = 14  Fahrenheit = 57.2
+Celsius = 15  Fahrenheit = 59.0
+Celsius = 16  Fahrenheit = 60.8
+Celsius = 17  Fahrenheit = 62.6
+Celsius = 18  Fahrenheit = 64.4
+Celsius = 19  Fahrenheit = 66.2
+Celsius = 20  Fahrenheit = 68.0
+Celsius = 21  Fahrenheit = 69.8
+Celsius = 22  Fahrenheit = 71.6
+Celsius = 23  Fahrenheit = 73.4
+Celsius = 24  Fahrenheit = 75.2
+Celsius = 25  Fahrenheit = 77.0
+Celsius = 26  Fahrenheit = 78.8
+Celsius = 27  Fahrenheit = 80.6
+Celsius = 28  Fahrenheit = 82.4
+Celsius = 29  Fahrenheit = 84.2
+Celsius = 30  Fahrenheit = 86.0
+Celsius = 31  Fahrenheit = 87.8
+Celsius = 32  Fahrenheit = 89.6
+Celsius = 33  Fahrenheit = 91.4
+Celsius = 34  Fahrenheit = 93.2
+Celsius = 35  Fahrenheit = 95.0
+Celsius = 36  Fahrenheit = 96.8
+Celsius = 37  Fahrenheit = 98.6
+Celsius = 38  Fahrenheit = 100.4
+Celsius = 39  Fahrenheit = 102.2
+Celsius = 40  Fahrenheit = 104.0
+Celsius = 41  Fahrenheit = 105.8
+Celsius = 42  Fahrenheit = 107.6
+Celsius = 43  Fahrenheit = 109.4
+Celsius = 44  Fahrenheit = 111.2
+Celsius = 45  Fahrenheit = 113.0
+Celsius = 46  Fahrenheit = 114.8
+Celsius = 47  Fahrenheit = 116.6
+Celsius = 48  Fahrenheit = 118.4
+Celsius = 49  Fahrenheit = 120.2
+Celsius = 50  Fahrenheit = 122.0
+Celsius = 51  Fahrenheit = 123.8
+Celsius = 52  Fahrenheit = 125.6
+Celsius = 53  Fahrenheit = 127.4
+Celsius = 54  Fahrenheit = 129.2
+Celsius = 55  Fahrenheit = 131.0
+Celsius = 56  Fahrenheit = 132.8
+Celsius = 57  Fahrenheit = 134.6
+Celsius = 58  Fahrenheit = 136.4
+Celsius = 59  Fahrenheit = 138.2
+Celsius = 60  Fahrenheit = 140.0
+Celsius = 61  Fahrenheit = 141.8
+Celsius = 62  Fahrenheit = 143.6
+Celsius = 63  Fahrenheit = 145.4
+Celsius = 64  Fahrenheit = 147.2
+Celsius = 65  Fahrenheit = 149.0
+Celsius = 66  Fahrenheit = 150.8
+Celsius = 67  Fahrenheit = 152.6
+Celsius = 68  Fahrenheit = 154.4
+Celsius = 69  Fahrenheit = 156.2
+Celsius = 70  Fahrenheit = 158.0
+Celsius = 71  Fahrenheit = 159.8
+Celsius = 72  Fahrenheit = 161.6
+Celsius = 73  Fahrenheit = 163.4
+Celsius = 74  Fahrenheit = 165.2
+Celsius = 75  Fahrenheit = 167.0
+Celsius = 76  Fahrenheit = 168.8
+Celsius = 77  Fahrenheit = 170.6
+Celsius = 78  Fahrenheit = 172.4
+Celsius = 79  Fahrenheit = 174.2
+Celsius = 80  Fahrenheit = 176.0
+Celsius = 81  Fahrenheit = 177.8
+Celsius = 82  Fahrenheit = 179.6
+Celsius = 83  Fahrenheit = 181.4
+Celsius = 84  Fahrenheit = 183.2
+Celsius = 85  Fahrenheit = 185.0
+Celsius = 86  Fahrenheit = 186.8
+Celsius = 87  Fahrenheit = 188.6
+Celsius = 88  Fahrenheit = 190.4
+Celsius = 89  Fahrenheit = 192.2
+Celsius = 90  Fahrenheit = 194.0
+Celsius = 91  Fahrenheit = 195.8
+Celsius = 92  Fahrenheit = 197.6
+Celsius = 93  Fahrenheit = 199.4
+Celsius = 94  Fahrenheit = 201.2
+Celsius = 95  Fahrenheit = 203.0
+Celsius = 96  Fahrenheit = 204.8
+Celsius = 97  Fahrenheit = 206.6
+Celsius = 98  Fahrenheit = 208.4
+Celsius = 99  Fahrenheit = 210.2
+Celsius = 100  Fahrenheit = 212.0
+Fahrenheit = 32  Celsius = 0.0
+Fahrenheit = 33  Celsius = 0.6
+Fahrenheit = 34  Celsius = 1.1
+Fahrenheit = 35  Celsius = 1.7
+Fahrenheit = 36  Celsius = 2.2
+Fahrenheit = 37  Celsius = 2.8
+Fahrenheit = 38  Celsius = 3.3
+Fahrenheit = 39  Celsius = 3.9
+Fahrenheit = 40  Celsius = 4.4
+Fahrenheit = 41  Celsius = 5.0
+Fahrenheit = 42  Celsius = 5.6
+Fahrenheit = 43  Celsius = 6.1
+Fahrenheit = 44  Celsius = 6.7
+Fahrenheit = 45  Celsius = 7.2
+Fahrenheit = 46  Celsius = 7.8
+Fahrenheit = 47  Celsius = 8.3
+Fahrenheit = 48  Celsius = 8.9
+Fahrenheit = 49  Celsius = 9.4
+Fahrenheit = 50  Celsius = 10.0
+Fahrenheit = 51  Celsius = 10.6
+Fahrenheit = 52  Celsius = 11.1
+Fahrenheit = 53  Celsius = 11.7
+Fahrenheit = 54  Celsius = 12.2
+Fahrenheit = 55  Celsius = 12.8
+Fahrenheit = 56  Celsius = 13.3
+Fahrenheit = 57  Celsius = 13.9
+Fahrenheit = 58  Celsius = 14.4
+Fahrenheit = 59  Celsius = 15.0
+Fahrenheit = 60  Celsius = 15.6
+Fahrenheit = 61  Celsius = 16.1
+Fahrenheit = 62  Celsius = 16.7
+Fahrenheit = 63  Celsius = 17.2
+Fahrenheit = 64  Celsius = 17.8
+Fahrenheit = 65  Celsius = 18.3
+Fahrenheit = 66  Celsius = 18.9
+Fahrenheit = 67  Celsius = 19.4
+Fahrenheit = 68  Celsius = 20.0
+Fahrenheit = 69  Celsius = 20.6
+Fahrenheit = 70  Celsius = 21.1
+Fahrenheit = 71  Celsius = 21.7
+Fahrenheit = 72  Celsius = 22.2
+Fahrenheit = 73  Celsius = 22.8
+Fahrenheit = 74  Celsius = 23.3
+Fahrenheit = 75  Celsius = 23.9
+Fahrenheit = 76  Celsius = 24.4
+Fahrenheit = 77  Celsius = 25.0
+Fahrenheit = 78  Celsius = 25.6
+Fahrenheit = 79  Celsius = 26.1
+Fahrenheit = 80  Celsius = 26.7
+Fahrenheit = 81  Celsius = 27.2
+Fahrenheit = 82  Celsius = 27.8
+Fahrenheit = 83  Celsius = 28.3
+Fahrenheit = 84  Celsius = 28.9
+Fahrenheit = 85  Celsius = 29.4
+Fahrenheit = 86  Celsius = 30.0
+Fahrenheit = 87  Celsius = 30.6
+Fahrenheit = 88  Celsius = 31.1
+Fahrenheit = 89  Celsius = 31.7
+Fahrenheit = 90  Celsius = 32.2
+Fahrenheit = 91  Celsius = 32.8
+Fahrenheit = 92  Celsius = 33.3
+Fahrenheit = 93  Celsius = 33.9
+Fahrenheit = 94  Celsius = 34.4
+Fahrenheit = 95  Celsius = 35.0
+Fahrenheit = 96  Celsius = 35.6
+Fahrenheit = 97  Celsius = 36.1
+Fahrenheit = 98  Celsius = 36.7
+Fahrenheit = 99  Celsius = 37.2
+Fahrenheit = 100  Celsius = 37.8
+Fahrenheit = 101  Celsius = 38.3
+Fahrenheit = 102  Celsius = 38.9
+Fahrenheit = 103  Celsius = 39.4
+Fahrenheit = 104  Celsius = 40.0
+Fahrenheit = 105  Celsius = 40.6
+Fahrenheit = 106  Celsius = 41.1
+Fahrenheit = 107  Celsius = 41.7
+Fahrenheit = 108  Celsius = 42.2
+Fahrenheit = 109  Celsius = 42.8
+Fahrenheit = 110  Celsius = 43.3
+Fahrenheit = 111  Celsius = 43.9
+Fahrenheit = 112  Celsius = 44.4
+Fahrenheit = 113  Celsius = 45.0
+Fahrenheit = 114  Celsius = 45.6
+Fahrenheit = 115  Celsius = 46.1
+Fahrenheit = 116  Celsius = 46.7
+Fahrenheit = 117  Celsius = 47.2
+Fahrenheit = 118  Celsius = 47.8
+Fahrenheit = 119  Celsius = 48.3
+Fahrenheit = 120  Celsius = 48.9
+Fahrenheit = 121  Celsius = 49.4
+Fahrenheit = 122  Celsius = 50.0
+Fahrenheit = 123  Celsius = 50.6
+Fahrenheit = 124  Celsius = 51.1
+Fahrenheit = 125  Celsius = 51.7
+Fahrenheit = 126  Celsius = 52.2
+Fahrenheit = 127  Celsius = 52.8
+Fahrenheit = 128  Celsius = 53.3
+Fahrenheit = 129  Celsius = 53.9
+Fahrenheit = 130  Celsius = 54.4
+Fahrenheit = 131  Celsius = 55.0
+Fahrenheit = 132  Celsius = 55.6
+Fahrenheit = 133  Celsius = 56.1
+Fahrenheit = 134  Celsius = 56.7
+Fahrenheit = 135  Celsius = 57.2
+Fahrenheit = 136  Celsius = 57.8
+Fahrenheit = 137  Celsius = 58.3
+Fahrenheit = 138  Celsius = 58.9
+Fahrenheit = 139  Celsius = 59.4
+Fahrenheit = 140  Celsius = 60.0
+Fahrenheit = 141  Celsius = 60.6
+Fahrenheit = 142  Celsius = 61.1
+Fahrenheit = 143  Celsius = 61.7
+Fahrenheit = 144  Celsius = 62.2
+Fahrenheit = 145  Celsius = 62.8
+Fahrenheit = 146  Celsius = 63.3
+Fahrenheit = 147  Celsius = 63.9
+Fahrenheit = 148  Celsius = 64.4
+Fahrenheit = 149  Celsius = 65.0
+Fahrenheit = 150  Celsius = 65.6
+Fahrenheit = 151  Celsius = 66.1
+Fahrenheit = 152  Celsius = 66.7
+Fahrenheit = 153  Celsius = 67.2
+Fahrenheit = 154  Celsius = 67.8
+Fahrenheit = 155  Celsius = 68.3
+Fahrenheit = 156  Celsius = 68.9
+Fahrenheit = 157  Celsius = 69.4
+Fahrenheit = 158  Celsius = 70.0
+Fahrenheit = 159  Celsius = 70.6
+Fahrenheit = 160  Celsius = 71.1
+Fahrenheit = 161  Celsius = 71.7
+Fahrenheit = 162  Celsius = 72.2
+Fahrenheit = 163  Celsius = 72.8
+Fahrenheit = 164  Celsius = 73.3
+Fahrenheit = 165  Celsius = 73.9
+Fahrenheit = 166  Celsius = 74.4
+Fahrenheit = 167  Celsius = 75.0
+Fahrenheit = 168  Celsius = 75.6
+Fahrenheit = 169  Celsius = 76.1
+Fahrenheit = 170  Celsius = 76.7
+Fahrenheit = 171  Celsius = 77.2
+Fahrenheit = 172  Celsius = 77.8
+Fahrenheit = 173  Celsius = 78.3
+Fahrenheit = 174  Celsius = 78.9
+Fahrenheit = 175  Celsius = 79.4
+Fahrenheit = 176  Celsius = 80.0
+Fahrenheit = 177  Celsius = 80.6
+Fahrenheit = 178  Celsius = 81.1
+Fahrenheit = 179  Celsius = 81.7
+Fahrenheit = 180  Celsius = 82.2
+Fahrenheit = 181  Celsius = 82.8
+Fahrenheit = 182  Celsius = 83.3
+Fahrenheit = 183  Celsius = 83.9
+Fahrenheit = 184  Celsius = 84.4
+Fahrenheit = 185  Celsius = 85.0
+Fahrenheit = 186  Celsius = 85.6
+Fahrenheit = 187  Celsius = 86.1
+Fahrenheit = 188  Celsius = 86.7
+Fahrenheit = 189  Celsius = 87.2
+Fahrenheit = 190  Celsius = 87.8
+Fahrenheit = 191  Celsius = 88.3
+Fahrenheit = 192  Celsius = 88.9
+Fahrenheit = 193  Celsius = 89.4
+Fahrenheit = 194  Celsius = 90.0
+Fahrenheit = 195  Celsius = 90.6
+Fahrenheit = 196  Celsius = 91.1
+Fahrenheit = 197  Celsius = 91.7
+Fahrenheit = 198  Celsius = 92.2
+Fahrenheit = 199  Celsius = 92.8
+Fahrenheit = 200  Celsius = 93.3
+Fahrenheit = 201  Celsius = 93.9
+Fahrenheit = 202  Celsius = 94.4
+Fahrenheit = 203  Celsius = 95.0
+Fahrenheit = 204  Celsius = 95.6
+Fahrenheit = 205  Celsius = 96.1
+Fahrenheit = 206  Celsius = 96.7
+Fahrenheit = 207  Celsius = 97.2
+Fahrenheit = 208  Celsius = 97.8
+Fahrenheit = 209  Celsius = 98.3
+Fahrenheit = 210  Celsius = 98.9
+Fahrenheit = 211  Celsius = 99.4
+Fahrenheit = 212  Celsius = 100.0
+
+
+**/
